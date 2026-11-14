@@ -1,78 +1,49 @@
 ===== 用户的原始需求 =====
-你认为你智商的有多高？
+帮我写个泡沫循环排序
 
 ===== 【阶段一：主脑拆解】 =====
-作为项目经理，我更擅长管理和沟通，而不擅长提供具体的智力评估。如果你有关于项目的需求或问题，我很乐意帮助你。
+请提供更多的信息或确认，您是否需要一个具体的泡沫排序算法实现，还是有其他特定的需求？
 
-思考轮次:2
+思考轮次:1
 ===== 【最终交付给用户的回复（主脑包装版）】 =====
-这个C++程序实现了计算项目任务的进度计划（timeline），它使用了拓扑排序算法来处理任务及其依赖关系。通过给定的任务列表和依赖关系列表，程序生成了一个任务执行的顺序列表。用户可以查看这个进度计划，了解每个任务的执行顺序，从而更好地管理和安排项目时间。程序已经通过一个简单的示例进行了演示。
+已经检查了提供的代码，这是使用泡沫排序算法对数组进行排序的示例。代码已经正确实现了功能，可以对给定的数组进行排序，并在排序前后打印数组。
 
-===== 【底层经过3轮审查的纯净代码】 =====
+===== 【底层经过1轮审查的纯净代码】 =====
 ```cpp
 #include <iostream>
-#include <vector>
-#include <string>
-#include <algorithm>
-#include <deque>
-
 using namespace std;
 
-// Function to calculate the project timeline based on tasks and dependencies
-vector<string> calculateProjectTimeline(vector<string> tasks, vector<pair<int, int>> dependencies) {
-    // This is a simplified version of a topological sort algorithm
-    vector<int> inDegree(tasks.size(), 0);
-    vector<vector<int>> graph(tasks.size());
-
-    // Build the graph and in-degree array
-    for (const auto& dep : dependencies) {
-        int u = dep.first;
-        int v = dep.second;
-        graph[u].push_back(v);
-        inDegree[v]++;
-    }
-
-    vector<string> timeline;
-    deque<int> queue;
-
-    // Initialize the queue with nodes of in-degree zero
-    for (int i = 0; i < tasks.size(); ++i) {
-        if (inDegree[i] == 0) {
-            queue.push_back(i);
-        }
-    }
-
-    while (!queue.empty()) {
-        int u = queue.front();
-        queue.pop_front();
-        timeline.push_back(tasks[u]);
-
-        for (int v : graph[u]) {
-            inDegree[v]--;
-            if (inDegree[v] == 0) {
-                queue.push_back(v);
+void bubbleSort(int arr[], int n) {
+    for (int i = 0; i < n-1; i++) {
+        for (int j = 0; j < n-i-1; j++) {
+            if (arr[j] > arr[j+1]) {
+                // 交换元素
+                int temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
             }
         }
     }
+}
 
-    return timeline;
+void printArray(int arr[], int size) {
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
 }
 
 int main() {
-    // Example project tasks and dependencies
-    vector<string> tasks = {"Design", "Development", "Testing", "Deployment"};
-    vector<pair<int, int>> dependencies = {
-        {0, 1},  // Design must come before Development
-        {1, 2},  // Development must come before Testing
-        {2, 3}   // Testing must come before Deployment
-    };
+    int arr[] = {64, 34, 25, 12, 22, 11, 90};
+    int n = sizeof(arr)/sizeof(arr[0]);
 
-    vector<string> timeline = calculateProjectTimeline(tasks, dependencies);
+    cout << "原始数组: ";
+    printArray(arr, n);
 
-    cout << "Project Timeline:" << endl;
-    for (const string& task : timeline) {
-        cout << "- " << task << endl;
-    }
+    bubbleSort(arr, n);
+
+    cout << "排序后数组: ";
+    printArray(arr, n);
 
     return 0;
 }

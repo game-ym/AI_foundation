@@ -19,7 +19,7 @@ int main() {
     SetDllDirectoryW(L"dlls");
     llama_backend_init();
 
-    // 【核心修复 1：加上全局 try-catch 护盾】
+   
     try {
         vector<AIConfig> my_ais;
         AIname(my_ais); // 读取配置
@@ -34,7 +34,7 @@ int main() {
         vector<LModel*> sacrifice_list = { &AI_Critic, &AI_Thinker, &AI_Main };
 
         // 用户需求
-        string user_input = "你认为你智商的有多高？";
+        string user_input = "帮我写个泡沫循环排序";
 
         string main_output = "";
 
@@ -122,11 +122,11 @@ int main() {
         else {
             out << "思考轮次:" << final_result.total_rounds << endl;
             out << "===== 【最终交付给用户的回复（主脑包装版）】 =====\n" << final_presentation << "\n\n";
-            out << "===== 【底层经过3轮审查的纯净代码】 =====\n" << final_result.final_Think << "\n";
+            out << "===== 【底层经过"<<final_result.total_rounds<<"轮审查的纯净代码】 =====\n" << final_result.final_Think << "\n";
         }
         out.close();
 
-        cout << "三体联动完成！请打开 final_result.txt 查看战果！" << endl;
+        cout << "完成！请打开 final_result.txt 查看结果" << endl;
 
     }
     catch (const std::exception& e) {
