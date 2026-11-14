@@ -1,0 +1,19 @@
+{
+  "ais": [
+    {
+      "name": "Main",
+      "path": "E:/AI_foundation/models/qwen2.5-3b-instruct-q4_k_m.gguf",
+      "type": "Router"
+    },
+    {
+      "name": "Thinker",
+      "path": "E:/AI_foundation/models/Qwen3-4B-Q4_K_M.gguf",
+      "type": "Expert"
+    },
+    {
+      "name": "Critic",
+      "path": "E:/AI_foundation/models/qwen3-5-4B-Q4_K_M.gguf",
+      "type": "Reviewer"
+    }
+  ]
+}
