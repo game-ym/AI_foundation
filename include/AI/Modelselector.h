@@ -7,5 +7,4 @@
 class Modelselector {
     public:
         static void Startmodel(LModel& AI,std::vector<AIConfig>& my_ais,std::vector<LModel*>& sacrifice_list,const std::string& name);
-        /*static void Designatedunloading(LModel& AI);*/
 };

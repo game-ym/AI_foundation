@@ -30,6 +30,8 @@ class LModel {
         bool IsLoaded() const { return model != nullptr; }
         bool is_ctx_alive = false;
         void Loading_model(std::string& my_ais,std::string name);
+        bool Store_memory(const std::string& File_path,int sep_id,const std::vector<llama_token>&tokens);
+        std::vector<llama_token> Load_memory(const std::string& File_path, int dest_seq_id,int Quantity_limit);
         std::string Reasoning(std::vector<llama_token>& tokens, int max_new_tokens, float Modeltemperature,bool keep_ctx=false);
         void Uninstall_model();
         std::vector<llama_token> Dialogue(const std::string& Phrase);

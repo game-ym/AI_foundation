@@ -26,7 +26,7 @@ void LModel::Loading_model(string& model_path, string name) {
     int n_kv_heads = llama_model_n_head_kv(model.get());
     int n_embd = llama_model_n_embd(model.get());
     int head_dim = n_embd / n_heads;                   
-    if (head_dim <= 0) head_dim = 128;                   
+    if (head_dim <= 0) head_dim = 128;
     size_t kv_cache_per_token = 2 * n_layers * n_kv_heads * head_dim * 2;
     
     size_t free_vram_bytes = VMManager::GetFreeVRAM_MB() * 1024ULL * 1024ULL;
@@ -50,7 +50,7 @@ void LModel::Loading_model(string& model_path, string name) {
         << " | 最终分配 n_ctx: " << dynamic_ctx << endl;
     llama_context_params ctx_params = llama_context_default_params();
     ctx_params.n_ctx = dynamic_ctx;
-
+    ctx_params.kv_unified = true;
     const int MIN_BATCH = 64;
     int try_batch = std::min(dynamic_ctx, 512);
 

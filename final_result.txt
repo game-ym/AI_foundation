@@ -2,49 +2,76 @@
 帮我写个泡沫循环排序
 
 ===== 【阶段一：主脑拆解】 =====
-请提供更多的信息或确认，您是否需要一个具体的泡沫排序算法实现，还是有其他特定的需求？
+请提供详细的需求或者说明你希望这个泡沫循环排序程序实现的功能，比如输入数据格式、输出格式、是否需要处理异常等。
 
 思考轮次:1
 ===== 【最终交付给用户的回复（主脑包装版）】 =====
-已经检查了提供的代码，这是使用泡沫排序算法对数组进行排序的示例。代码已经正确实现了功能，可以对给定的数组进行排序，并在排序前后打印数组。
+我已经为程序员编写了一个泡沫循环排序程序。程序支持用户输入一系列整数（以-1结束输入），并对其进行排序。排序完成后，程序将打印排序后的数组。请告知用户程序已成功完成。
 
 ===== 【底层经过1轮审查的纯净代码】 =====
 ```cpp
 #include <iostream>
+#include <vector>
+#include <iomanip>
+
 using namespace std;
 
-void bubbleSort(int arr[], int n) {
-    for (int i = 0; i < n-1; i++) {
-        for (int j = 0; j < n-i-1; j++) {
-            if (arr[j] > arr[j+1]) {
-                // 交换元素
-                int temp = arr[j];
-                arr[j] = arr[j+1];
-                arr[j+1] = temp;
-            }
-        }
-    }
-}
-
-void printArray(int arr[], int size) {
-    for (int i = 0; i < size; i++) {
-        cout << arr[i] << " ";
-    }
-    cout << endl;
-}
+// 函数声明
+void bubbleSort(vector<int>& arr);
+void printArray(const vector<int>& arr);
 
 int main() {
-    int arr[] = {64, 34, 25, 12, 22, 11, 90};
-    int n = sizeof(arr)/sizeof(arr[0]);
+    // 输入数据
+    vector<int> arr;
+    int num;
 
-    cout << "原始数组: ";
-    printArray(arr, n);
+    cout << "请输入要排序的整数，输入-1结束输入：\n";
+    while (true) {
+        cin >> num;
+        if (num == -1) break;
+        arr.push_back(num);
+    }
 
-    bubbleSort(arr, n);
+    if (arr.empty()) {
+        cout << "输入数据为空，请至少输入一个整数。\n";
+        return 1;
+    }
 
-    cout << "排序后数组: ";
-    printArray(arr, n);
+    // 调用排序函数
+    bubbleSort(arr);
+
+    // 输出排序结果
+    cout << "排序后的数组：\n";
+    printArray(arr);
 
     return 0;
+}
+
+// 冒泡排序函数
+void bubbleSort(vector<int>& arr) {
+    int n = arr.size();
+    bool swapped;
+    for (int i = 0; i < n - 1; ++i) {
+        swapped = false;
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                // 交换元素
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+                swapped = true;
+            }
+        }
+        // 如果没有交换，说明已经排好序
+        if (!swapped) break;
+    }
+}
+
+// 打印数组函数
+void printArray(const vector<int>& arr) {
+    for (int i = 0; i < arr.size(); ++i) {
+        cout << setw(5) << arr[i];
+    }
+    cout << endl;
 }
 ```
