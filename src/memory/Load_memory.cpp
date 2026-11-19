@@ -5,7 +5,27 @@
 #include "llama/llama.h"
 
 using namespace std;
-vector<llama_token> LModel::Load_memory(const string& File_path, int dest_seq_id,int Quantity_limit) {
+bool LModel::Load_L2memory(const vector<uint8_t>& kv_data, int seq_id) {
+    if (!ctx || kv_data.empty()) return false;
+
+    // 把 KV 给回显存上下文
+    size_t loaded = llama_state_seq_set_data(
+        ctx.get(),
+        kv_data.data(),
+        kv_data.size(),
+        seq_id
+    );
+
+    if (loaded > 0) {
+        cout << "Successfully injected" << (loaded / 1024 / 1024) << "MB of memory into VRAM!" << endl;
+        return true;
+    }
+    else {
+        cout << "Error: Memory injection failed!" << endl;
+        return false;
+    }
+}
+vector<llama_token> LModel::Load_L3memory(const string& File_path, int dest_seq_id,int Quantity_limit) {
     vector<llama_token> loaded_tokens;
     if (Quantity_limit<0) {
         cout << "Error: Invalid Quantity_limit." << endl;

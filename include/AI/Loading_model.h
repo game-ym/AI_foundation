@@ -9,6 +9,7 @@
 #include "llama/llama-cpp.h"
 class LModel {
     private:
+        // 创建随机参数
         static uint32_t Random_seed() {
             static std::atomic<uint64_t> counter{ 0 };
             uint64_t t = static_cast<uint64_t>(
@@ -29,10 +30,19 @@ class LModel {
     public:
         bool IsLoaded() const { return model != nullptr; }
         bool is_ctx_alive = false;
+        // L2 记忆存储
+        std::vector<uint8_t>Store_L2memory(int seq_id);
+        // 读取 L2 记忆文件
+        bool Load_L2memory(const std::vector<uint8_t>& kv_data,int seq_id);
+        // 加载模型
         void Loading_model(std::string& my_ais,std::string name);
-        bool Store_memory(const std::string& File_path,int sep_id,const std::vector<llama_token>&tokens);
-        std::vector<llama_token> Load_memory(const std::string& File_path, int dest_seq_id,int Quantity_limit);
+        // L3 记忆存储
+        bool Store_L3memory(const std::string& File_path,int seq_id,const std::vector<llama_token>&tokens);
+        // 读取 L3 记忆文件
+        std::vector<llama_token> Load_L3memory(const std::string& File_path, int seq_id,int Quantity_limit);
+        // 思考
         std::string Reasoning(std::vector<llama_token>& tokens, int max_new_tokens, float Modeltemperature,bool keep_ctx=false);
+        // 卸载模型
         void Uninstall_model();
         std::vector<llama_token> Dialogue(const std::string& Phrase);
 };

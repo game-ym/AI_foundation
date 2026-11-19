@@ -48,7 +48,9 @@ Status Thinkingprocess::Run(LModel& thinker, LModel& critic, vector<AIConfig>& m
         cout << "[系统] 正在切换到反思模型..." << endl;
         Modelselector::Startmodel(critic, my_ais, sacrifice_list, "Critic");
 
-        string critic_prompt = "<|im_start|>system\n你是一个严苛的代码审查员。请直接输出审查结果，绝对不要输出思考过程。如果代码完全正确没有漏洞，请只输出 [PASS]；如果存在语法、逻辑漏洞，请输出 [FAIL] 并给出修改意见。<|im_end|>\n"
+        string critic_prompt = "<|im_start|>system\n你是一个务实的代码审查员。你的任务是检查代码是否能够**成功编译并运行**，是否存在**严重的语法错误、内存泄漏或核心逻辑漏洞**。\n"
+            "**重要规则：如果代码能够正常运行并满足基本需求，请直接输出 [PASS]！**\n"
+            "请绝对不要挑剔性能优化、代码风格、或者极端的边界情况。只有导致程序崩溃或无法编译的致命错误，才输出 [FAIL]。<|im_end|>\n"
             "<|im_start|>user\n请审查以下代码：\n" + current_Think + "<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n";
 
         try {

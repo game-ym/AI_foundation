@@ -15,9 +15,9 @@ using namespace std;
 
 int main() {
     // 1. 初始化
-    SetConsoleOutputCP(CP_UTF8);
-    SetDllDirectoryW(L"dlls");
-    llama_backend_init();
+   SetConsoleOutputCP(CP_UTF8);
+   SetDllDirectoryW(L"dlls");
+   llama_backend_init();
 
    
     try {
@@ -34,7 +34,7 @@ int main() {
         vector<LModel*> sacrifice_list = { &AI_Critic, &AI_Thinker, &AI_Main };
 
         // 用户需求
-        string user_input = "帮我写个泡沫循环排序";
+        string user_input = "帮我写个可以读取文件的c++代码";
 
         string main_output = "";
 
@@ -91,12 +91,12 @@ int main() {
 
             if (AI_Main.is_ctx_alive) {
                 // 主脑脑子还在！只需要喂最终代码
-                string delta_prompt = "<|im_start|>user\n程序员写好了：\n" + final_result.final_Think + "\n请向用户汇报。<|im_end|>\n<|im_start|>assistant\n";
+                string delta_prompt = "<|im_start|>user\n程序员写好了：\n" + final_result.final_Think + "\n请向用户汇报<|im_end|>\n<|im_start|>assistant\n";
                 vector<llama_token> wrap_tokens = AI_Main.Dialogue(delta_prompt);
                 final_presentation = AI_Main.Reasoning(wrap_tokens, 512, 0.6f, true); // 保留上下文
             }
             else {
-                // 主脑被踢过，脑子空了，重新喂全量
+                
                 string full_wrap = "<|im_start|>system\n你是一个项目经理...<|im_end|>\n"
                     "<|im_start|>user\n" + user_input + "<|im_end|>\n"
                     "<|im_start|>user\n程序员写好了：\n" + final_result.final_Think + "\n请向用户汇报。<|im_end|>\n<|im_start|>assistant\n";
@@ -107,7 +107,6 @@ int main() {
             cout << "================ 最终呈现给用户的回复 ================\n" << final_presentation << "\n======================================================" << endl;
             cout << "================ 源代码 ================\n" << final_result.final_Think << "\n======================================================" << endl;
         }
-
         // ==========================================
         // 【最终展示】全部写进文件
         // ==========================================
@@ -127,10 +126,16 @@ int main() {
         out.close();
 
         cout << "完成！请打开 final_result.txt 查看结果" << endl;
-
+        vector<uint8_t>L2memory = AI_Main.Store_L2memory(0);
+        AI_Main.Uninstall_model();
+        Modelselector::Startmodel(AI_Main, my_ais, sacrifice_list, "Main");
+        AI_Main.Load_L2memory(L2memory,0);
+        string main_token = "<|im_start|>user\n你还记得我的需求是什么吗<|im_end|>\n<|im_start|>assistant\n";
+        vector<llama_token> wrap_tokens = AI_Main.Dialogue(main_token);
+        string AImaintoken = AI_Main.Reasoning(wrap_tokens, 512, 0.6f,true);
+        cout << "AI:" << AImaintoken << endl;
     }
     catch (const std::exception& e) {
-        // 捕获所有 C++ 异常并打印
         cerr << "\n[致命错误] 程序捕获到异常: " << e.what() << endl;
     }
 

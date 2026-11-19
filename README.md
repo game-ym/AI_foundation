@@ -16,11 +16,11 @@
    - 实现了完整的“生成 -> 审查 -> 打回重写”闭环，支持用户手动加钟。
 4. **分级记忆库 (`MemoryManager` - 开发中)**
    - 构建 L1(显存) -> L2(内存LRU) -> L3(硬盘) 三级缓存架构。
-   - 支持 `<Memory>` 标签注入原汁原味的历史上下文。
+   - 使用的是 KV 注入。
 
 ## 编译与运行
 
-- **环境要求**: Windows / Linux (推荐 Arch), CMake, C++17。
+- **环境要求**: Windows / Linux (推荐 Arch，需要修改Main.cpp等,需要加入liunx链接库), CMake, C++17。
 - **硬件要求**: 支持 Vulkan 或 CUDA 的 GPU (本项目在 AMD RX 590 GME 8GB 极限测试通过)。
 - **模型准备**: 请将 `.gguf` 格式的模型放入 `models/` 目录，并在 `config.json` 中配置路径。
 

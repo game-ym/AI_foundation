@@ -45,9 +45,9 @@ void LModel::Loading_model(string& model_path, string name) {
             "Insufficient VRAM for minimal context (512). free="
             + std::to_string(free_vram_bytes / 1024 / 1024) + "MB");
     }
-    cout << "[引擎] 模型上限: " << model_max_ctx
-        << " | 显存允许: " << max_ctx_by_vram
-        << " | 最终分配 n_ctx: " << dynamic_ctx << endl;
+    cout << "Model limit: " << model_max_ctx
+        << " | VRAM is okay: " << max_ctx_by_vram
+        << " | Final allocation n_ctx: " << dynamic_ctx << endl;
     llama_context_params ctx_params = llama_context_default_params();
     ctx_params.n_ctx = dynamic_ctx;
     ctx_params.kv_unified = true;
